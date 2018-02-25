@@ -28,7 +28,7 @@ class RegisterCollectionConvertersPass implements CompilerPassInterface
     {
         $taggedServices = $container->findTaggedServiceIds('sauls_collection.converter');
 
-        if (!$taggedServices) {
+        if (empty($taggedServices)) {
             return;
         }
 

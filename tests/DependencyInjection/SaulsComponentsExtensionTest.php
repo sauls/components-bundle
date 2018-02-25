@@ -16,6 +16,7 @@ use function Sauls\Component\Helper\convert_to;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 use Sauls\Component\Widget\Factory\WidgetFactory;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SaulsComponentsExtensionTest extends ContainerTestCase
@@ -35,7 +36,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
     /**
      * @test
      */
-    public function should_not_load_helpers(): void
+    public function should_not_load_components(): void
     {
         $container = $this->createContainerBuilder([]);
 
@@ -43,6 +44,18 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
 
         $this->assertArrayNotHasKey(SaulsComponentsExtension::class, $twigTaggedServices);
         $this->assertFalse($container->has(WidgetFactory::class));
+    }
+
+    /**
+     * @test
+     */
+    public function should_not_find_collection_converters()
+    {
+        $container = new ContainerBuilder();
+        $container->addCompilerPass(new RegisterCollectionConvertersPass());
+        $container->compile();
+
+        $this->assertEmpty($container->findTaggedServiceIds('sauls_collection.converter'));
     }
 
     /**
