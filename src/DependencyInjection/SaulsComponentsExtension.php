@@ -18,7 +18,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 
 class SaulsComponentsExtension extends Extension
 {
@@ -33,8 +32,6 @@ class SaulsComponentsExtension extends Extension
 
         $this->loadHelpersConfiguration($configs, $container, $loader);
         $this->loadWidgetsConfiguration($configs, $container, $loader);
-
-        $container->addCompilerPass(new RegisterCollectionConvertersPass());
     }
 
     /**
