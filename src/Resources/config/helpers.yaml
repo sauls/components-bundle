@@ -1,0 +1,3 @@
+services:
+  Sauls\Bundle\Components\DependencyInjection\SaulsComponentsExtension:
+    tags: ['twig.extension']

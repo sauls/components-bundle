@@ -1,0 +1,42 @@
+services:
+
+  Sauls\Component\Widget\WidgetInterface:
+    tags: ['sauls_widget.widget']
+
+  Sauls\Component\Widget\Collection\WidgetCollection:
+    arguments:
+      - '!tagged sauls_widget.widget'
+
+  Sauls\Component\Widget\View\ViewInterface:
+    tags: ['sauls_widget.view']
+
+  Sauls\Component\Widget\View\NullView:
+    tags: ['sauls_widget.view']
+
+  Sauls\Component\Widget\View\StringView:
+    tags: ['sauls_widget.view']
+
+  Sauls\Component\Widget\View\PhpFileView:
+    tags: ['sauls_widget.view']
+
+  Sauls\Component\Widget\View\TwigView:
+    arguments: ['@twig']
+    tags: ['sauls_widget.view']
+
+  Sauls\Component\Widget\Collection\ViewCollection:
+    arguments:
+      - '!tagged sauls_widget.view'
+
+  Sauls\Component\Widget\Factory\WidgetFactory:
+    arguments:
+      - '@Sauls\Component\Widget\Collection\WidgetCollection'
+      - '@Sauls\Component\Widget\Collection\ViewCollection'
+
+  Sauls\Component\Widget\Factory\WidgetFactoryInterface:
+    alias: '@Sauls\Component\Widget\Factory\WidgetFactory'
+
+  Sauls\Component\Widget\Integration\Twig\TwigExtension:
+    arguments:
+      - '@Sauls\Component\Widget\Factory\WidgetFactory'
+    tags:
+      - { name: twig.extension }

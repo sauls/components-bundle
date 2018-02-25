@@ -1,0 +1,3 @@
+services:
+  Sauls\Bundle\Components\Stubs\Collection\Converter\TestIntToStringConverter:
+    tags: ['sauls_collection.converter']
