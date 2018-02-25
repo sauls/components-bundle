@@ -4,30 +4,38 @@ services:
     tags: ['sauls_widget.widget']
 
   Sauls\Component\Widget\Collection\WidgetCollection:
+    public: true
     arguments:
       - '!tagged sauls_widget.widget'
 
   Sauls\Component\Widget\View\ViewInterface:
+    public: false
     tags: ['sauls_widget.view']
 
   Sauls\Component\Widget\View\NullView:
+    public: false
     tags: ['sauls_widget.view']
 
   Sauls\Component\Widget\View\StringView:
+    public: false
     tags: ['sauls_widget.view']
 
   Sauls\Component\Widget\View\PhpFileView:
+    public: false
     tags: ['sauls_widget.view']
 
   Sauls\Component\Widget\View\TwigView:
+    public: false
     arguments: ['@twig']
     tags: ['sauls_widget.view']
 
   Sauls\Component\Widget\Collection\ViewCollection:
+    public: false
     arguments:
       - '!tagged sauls_widget.view'
 
   Sauls\Component\Widget\Factory\WidgetFactory:
+    public: true
     arguments:
       - '@Sauls\Component\Widget\Collection\WidgetCollection'
       - '@Sauls\Component\Widget\Collection\ViewCollection'

@@ -74,8 +74,6 @@ class SaulsComponentsExtension extends Extension
             return;
         }
 
-        $loader->load('collections.yaml');
-
         $container->addCompilerPass(new RegisterCollectionConvertersPass);
     }
 
