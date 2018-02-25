@@ -56,7 +56,6 @@ return [
 sauls_components:
     helpers: ~ # default true
     widgets: ~ # default true
-    collections: ~ # default true
 ```
 
 ## Helpers in twig

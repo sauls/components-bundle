@@ -12,6 +12,7 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 use Sauls\Bundle\Components\Stubs\Widget\TestWidget;
 use function Sauls\Component\Helper\convert_to;
 use Sauls\Component\Widget\Collection\ViewCollection;
@@ -73,6 +74,9 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
         $container = $this->createContainerBuilder(['helpers' => true, 'widgets' => true, 'collections' => true]);
         $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Stubs/Resources/config'));
         $loader->load('test_services.yaml');
+
+        $container->addCompilerPass(new RegisterCollectionConvertersPass());
+
         $container->compile();
 
 
