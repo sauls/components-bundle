@@ -31,11 +31,9 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->fixXmlConfig('helper')
             ->fixXmlConfig('widget')
-            ->fixXmlConfig('collection')
             ->children()
                 ->booleanNode('helpers')->defaultValue(true)->end()
                 ->booleanNode('widgets')->defaultValue(true)->end()
-                ->booleanNode('collections')->defaultValue(true)->end()
             ->end()
         ;
 

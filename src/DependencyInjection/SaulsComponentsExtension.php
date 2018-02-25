@@ -33,7 +33,6 @@ class SaulsComponentsExtension extends Extension
 
         $this->loadHelpersConfiguration($configs, $container, $loader);
         $this->loadWidgetsConfiguration($configs, $container, $loader);
-        $this->loadCollectionsConfiguration($configs, $container, $loader);
 
         $container->addCompilerPass(new RegisterCollectionConvertersPass());
     }
@@ -62,19 +61,6 @@ class SaulsComponentsExtension extends Extension
         }
 
         $loader->load('widgets.yaml');
-    }
-
-    /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
-     */
-    private function loadCollectionsConfiguration(array $configs, ContainerBuilder $container, LoaderInterface $loader)
-    {
-        if ($this->componentIsNotEnabled('collections', $configs)) {
-            return;
-        }
-
-        $container->addCompilerPass(new RegisterCollectionConvertersPass);
     }
 
     /**
