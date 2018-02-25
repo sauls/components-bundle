@@ -12,16 +12,9 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
-use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
-use Sauls\Bundle\Components\Stubs\Widget\TestWidget;
 use function Sauls\Component\Helper\convert_to;
-use Sauls\Component\Widget\Collection\ViewCollection;
-use Sauls\Component\Widget\Collection\WidgetCollection;
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 use Sauls\Component\Widget\Factory\WidgetFactory;
-use Sauls\Component\Widget\Integration\Twig\TwigExtension;
-use Sauls\Component\Widget\Stubs\DummyWidget;
-use Sauls\Component\Widget\View\StringView;
-use Sauls\Component\Widget\View\TwigView;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
