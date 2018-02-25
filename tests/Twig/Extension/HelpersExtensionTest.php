@@ -48,6 +48,56 @@ class HelpersExtensionTest extends TestCase
                 ]));
     }
 
+    /**
+     * @test
+     */
+    public function should_camelize_string(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'super_duper_string'|camelize }}");
+
+        $this->assertSame('SuperDuperString', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_snakeify_string(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'SuperDuperString'|snakeify }}");
+
+        $this->assertSame('super_duper_string', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_explode_string_using_multiple_delimiters(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{% set ms = 'super,duper#string'|multi_split([',', '#']) %}{{ ms|join('-') }}");
+
+        $this->assertSame('super-duper-string', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_base64_encode_string(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{'test&nottest=2'|base64_url_encode}}");
+
+        $this->assertSame('dGVzdCZub3R0ZXN0PTI=', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_base64_decode_string(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{'dGVzdCZub3R0ZXN0PTI='|base64_url_decode}}");
+
+        $this->assertSame('test&amp;nottest=2', $template->render([]));
+    }
+
     protected function setUp()
     {
         $this->twigEnvironment = new \Twig_Environment(

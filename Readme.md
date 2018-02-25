@@ -59,6 +59,18 @@ sauls_components:
     collections: ~ # default true
 ```
 
+## Helpers in twig
+
+```twig
+
+{{ '2018-01-12'|elapsed }}
+{{ '2017-12-31'|countdown('2018-01-01') }}
+{{ 'weird_string|camelize' }}
+{{ 'AnotherWeirdString'|snakeify }}
+{% set ms = 'super,duper#string'|multi_split([',', '#']) %}
+{{ 'test&nottest=2'|base64_url_encode }}
+{{ 'dGVzdCZub3R0ZXN0PTI='|base64_url_decode }}
+```
 
 ## Widgets support
 
