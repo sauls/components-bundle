@@ -36,7 +36,7 @@ $ composer require sauls/components-bundle
 }
 ```
 
-## Registering bundle
+## Register bundle
 
 If you are using symfony/flex the bundle will be auto registered for  you. Otherwise append your bundles.php file.
 
@@ -133,3 +133,5 @@ services:
 ```
 
 Or if you are using autowire feature, you don't need to do anything it will be added automatically.
+
+After that you can use your new converter `convert_to(1, 'string')`.
