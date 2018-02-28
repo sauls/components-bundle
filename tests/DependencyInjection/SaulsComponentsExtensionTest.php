@@ -26,7 +26,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
      */
     public function should_load_all_components()
     {
-        $container = $this->createContainerBuilder(['helpers' => true, 'widgets' => true, 'collections' => true]);
+        $container = $this->createContainerBuilder();
 
         $twigTaggedServices = $container->findTaggedServiceIds('twig.extension');
         $this->assertArrayHasKey(SaulsComponentsExtension::class, $twigTaggedServices);
@@ -38,7 +38,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
      */
     public function should_not_load_components(): void
     {
-        $container = $this->createContainerBuilder([]);
+        $container = $this->createContainerBuilder([['helpers' => false, 'widgets' => false]]);
 
         $twigTaggedServices = $container->findTaggedServiceIds('twig.extension');
 
@@ -65,7 +65,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
      */
     public function should_not_register_any_custom_collection_converters(): void
     {
-        $container = $this->createContainerBuilder(['helpers' => true, 'widgets' => true, 'collections' => true]);
+        $container = $this->createContainerBuilder([['helpers' => true, 'widgets' => true,]]);
 
         $container->compile();
 
@@ -77,7 +77,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
      */
     public function should_register_custom_collection_converters(): void
     {
-        $container = $this->createContainerBuilder(['helpers' => true, 'widgets' => true, 'collections' => true]);
+        $container = $this->createContainerBuilder([['helpers' => true, 'widgets' => true,]]);
         $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Stubs/Resources/config'));
         $loader->load('test_services.yaml');
 

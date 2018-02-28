@@ -28,10 +28,14 @@ class SaulsComponentsExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+
+        $configuration = $this->getConfiguration($configs, $container);
+        $config = $this->processConfiguration($configuration, $configs);
+
         $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
 
-        $this->loadHelpersConfiguration($configs, $container, $loader);
-        $this->loadWidgetsConfiguration($configs, $container, $loader);
+        $this->loadHelpersConfiguration($config, $container, $loader);
+        $this->loadWidgetsConfiguration($config, $container, $loader);
     }
 
     /**
