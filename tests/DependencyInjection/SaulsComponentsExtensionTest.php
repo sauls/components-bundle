@@ -12,6 +12,7 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Sauls\Bundle\Components\Twig\Extension\HelpersTwigExtension;
 use function Sauls\Component\Helper\convert_to;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 use Sauls\Component\Widget\Factory\WidgetFactory;
@@ -29,7 +30,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
         $container = $this->createContainerBuilder();
 
         $twigTaggedServices = $container->findTaggedServiceIds('twig.extension');
-        $this->assertArrayHasKey(SaulsComponentsExtension::class, $twigTaggedServices);
+        $this->assertArrayHasKey(HelpersTwigExtension::class, $twigTaggedServices);
         $this->assertTrue($container->has(WidgetFactory::class));
     }
 
@@ -42,7 +43,7 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
 
         $twigTaggedServices = $container->findTaggedServiceIds('twig.extension');
 
-        $this->assertArrayNotHasKey(SaulsComponentsExtension::class, $twigTaggedServices);
+        $this->assertArrayNotHasKey(HelpersTwigExtension::class, $twigTaggedServices);
         $this->assertFalse($container->has(WidgetFactory::class));
     }
 
