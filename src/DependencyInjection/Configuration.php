@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
      * Generates the configuration tree builder.
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * @throws \RuntimeException
      */
     public function getConfigTreeBuilder()
     {
@@ -33,8 +34,8 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('widget')
             ->addDefaultsIfNotSet()
             ->children()
-                ->booleanNode('helpers')->defaultValue(true)->end()
-                ->booleanNode('widgets')->defaultValue(true)->end()
+                ->booleanNode('helpers')->defaultTrue()->end()
+                ->booleanNode('widgets')->defaultTrue()->end()
             ->end()
         ;
 
