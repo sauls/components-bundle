@@ -12,12 +12,12 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
-use Sauls\Component\Widget\Integration\Twig\TwigExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 trait ContainerTestCaseTrait
 {
     /**
+     * @throws \Symfony\Component\DependencyInjection\Exception\BadMethodCallException
      * @throws \InvalidArgumentException
      * @throws \Exception
      * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
@@ -26,10 +26,20 @@ trait ContainerTestCaseTrait
     {
         $containerBuilder = new ContainerBuilder;
 
+        $containerBuilder->set('twig', $this->createTwigEnvironmentMock());
+
+
         $componentsExtension = new SaulsComponentsExtension;
 
         $componentsExtension->load($configs, $containerBuilder);
 
         return $containerBuilder;
+    }
+
+    public function createTwigEnvironmentMock(): \Twig_Environment
+    {
+        return new \Twig_Environment(
+            $this->getMockBuilder(\Twig_LoaderInterface::class)->getMock()
+        );
     }
 }
