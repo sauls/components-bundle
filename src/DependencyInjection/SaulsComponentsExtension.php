@@ -13,6 +13,8 @@
 namespace Sauls\Bundle\Components\DependencyInjection;
 
 use function Sauls\Component\Helper\array_get_value;
+use Sauls\Component\Widget\View\ViewInterface;
+use Sauls\Component\Widget\WidgetInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -62,6 +64,16 @@ class SaulsComponentsExtension extends Extension
         }
 
         $loader->load('widgets.yaml');
+
+        $container
+            ->registerForAutoconfiguration(WidgetInterface::class)
+            ->setTags(['sauls_widget.widget'])
+            ->setPublic(true);
+
+        $container
+            ->registerForAutoconfiguration(ViewInterface::class)
+            ->setTags(['sauls_widget.view'])
+            ->setPrivate(true);
     }
 
     /**
