@@ -66,6 +66,6 @@ class SaulsComponentsExtension extends Extension
      */
     private function componentIsNotEnabled(string $componentName, array $configs): bool
     {
-        return false === array_get_value($configs, 'helpers', false);
+        return false === array_get_value($configs, $componentName, false);
     }
 }
