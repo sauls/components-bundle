@@ -5,8 +5,7 @@ services:
 
   Sauls\Component\Widget\Collection\WidgetCollection:
     public: true
-    arguments:
-      - '!tagged sauls_widget.widget'
+    arguments: [!tagged sauls_widget.widget]
 
   Sauls\Component\Widget\View\ViewInterface:
     public: false
@@ -31,8 +30,7 @@ services:
 
   Sauls\Component\Widget\Collection\ViewCollection:
     public: false
-    arguments:
-      - '!tagged sauls_widget.view'
+    arguments: [!tagged sauls_widget.view]
 
   Sauls\Component\Widget\Factory\WidgetFactory:
     public: true
