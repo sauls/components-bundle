@@ -15,6 +15,7 @@ namespace Sauls\Bundle\Components\DependencyInjection;
 use Sauls\Bundle\Components\Twig\Extension\HelpersTwigExtension;
 use function Sauls\Component\Helper\convert_to;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
+use Sauls\Component\Widget\Collection\WidgetCollection;
 use Sauls\Component\Widget\Factory\WidgetFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,6 +32,10 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
 
         $twigTaggedServices = $container->findTaggedServiceIds('twig.extension');
         $this->assertArrayHasKey(HelpersTwigExtension::class, $twigTaggedServices);
+
+        $container->compile();
+
+        $this->assertTrue($container->has(WidgetCollection::class));
         $this->assertTrue($container->has(WidgetFactory::class));
     }
 
