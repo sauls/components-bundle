@@ -27,7 +27,7 @@ class HelpersExtensionTest extends TestCase
 
         $template = $this->twigEnvironment->createTemplate('{{testDate|elapsed_time}}');
 
-        $this->assertContains('1mo 3d', $template->render(['testDate' => $testDate]));
+        $this->assertContains('1mo', $template->render(['testDate' => $testDate]));
     }
 
     /**
