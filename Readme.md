@@ -69,6 +69,14 @@ sauls_components:
 {% set ms = 'super,duper#string'|multi_split([',', '#']) %}
 {{ 'test&nottest=2'|base64_url_encode }}
 {{ 'dGVzdCZub3R0ZXN0PTI='|base64_url_decode }}
+{{ 'one two three'|count_words }}
+{{ 'Helllo. World. Is it? Or not?'|count_sentences }}
+{{ 'Hello world!'|truncate(5) }}
+{{ 'Hello magical world!'|truncate_words(2) }}
+{{ 'Hello. World. Are you real?'|truncate_sentences(2, '..') }}
+{{ '<p>Hello world!</p>'|truncate_html(5, '') }}
+{{ '<p>Hello world of life.</p>'|truncate_html_words(2, '') }}
+{{ '<p><span>Hello world.</span> How is your life? is it good?</p>'|truncate_html_sentences(2, '') }}
 ```
 
 ## Widgets support
