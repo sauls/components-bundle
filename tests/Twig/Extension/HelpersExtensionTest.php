@@ -98,7 +98,89 @@ class HelpersExtensionTest extends TestCase
         $this->assertSame('test&amp;nottest=2', $template->render([]));
     }
 
-    protected function setUp()
+    /**
+     * @test
+     */
+    public function should_count_words(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'one two three'|count_words }}");
+
+        $this->assertSame('3', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_count_sentences(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'Helllo. World. Is it? Or not?'|count_sentences }}");
+
+        $this->assertSame('4', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'Hello world!'|truncate(5) }}");
+
+        $this->assertSame('Hello...', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate_words(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'Hello magical world!'|truncate_words(2) }}");
+
+        $this->assertSame('Hello magical...', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate_sentences(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ 'Hello. World. Are you real?'|truncate_sentences(2, '..') }}");
+
+        $this->assertSame('Hello. World...', $template->render([]));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate_html(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ '<p>Hello world!</p>'|truncate_html(5, '') }}");
+
+        $this->assertSame('<p>Hello</p>', \html_entity_decode($template->render([])));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate_html_words(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ '<p>Hello world of life.</p>'|truncate_html_words(2, '') }}");
+
+        $this->assertSame('<p>Hello world</p>', \html_entity_decode($template->render([])));
+    }
+
+    /**
+     * @test
+     */
+    public function should_truncate_html_sentences(): void
+    {
+        $template = $this->twigEnvironment->createTemplate("{{ '<p><span>Hello world.</span> How is your life? is it good?</p>'|truncate_html_sentences(2, '') }}");
+
+        $this->assertSame('<p><span>Hello world.</span>How is your life?</p>', \html_entity_decode($template->render([])));
+    }
+
+
+
+protected function setUp()
     {
         $this->twigEnvironment = new \Twig_Environment(
             $this->getMockBuilder(\Twig_LoaderInterface::class)->getMock()
