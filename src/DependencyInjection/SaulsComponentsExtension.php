@@ -67,12 +67,12 @@ class SaulsComponentsExtension extends Extension
 
         $container
             ->registerForAutoconfiguration(WidgetInterface::class)
-            ->setTags(['sauls_widget.widget'])
+            ->addTag('sauls_widget.widget')
             ->setPublic(true);
 
         $container
             ->registerForAutoconfiguration(ViewInterface::class)
-            ->setTags(['sauls_widget.view'])
+            ->addTag('sauls_widget.view')
             ->setPrivate(true);
     }
 
