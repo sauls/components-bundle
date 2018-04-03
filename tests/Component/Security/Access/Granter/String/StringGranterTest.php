@@ -31,8 +31,9 @@ class StringGranterTest extends StringGranterTestCase
     {
         return [
             [true, 'secret_', $this->getDefaultValues()],
-            [true, 'top_secret', $this->getDefaultValues(['top_secret_string'])],
+            [true, 'top_secret_string', $this->getDefaultValues(['top_secret_'])],
             [false, 'allow_me', $this->getDefaultValues()],
+            [true, 'app_route_index', $this->getDefaultValues(['app_route_'])],
         ];
     }
 
@@ -41,7 +42,7 @@ class StringGranterTest extends StringGranterTestCase
         return array_merge(
             [
                 'test_',
-                'secret_'
+                'secret_',
             ],
             $values
         );
