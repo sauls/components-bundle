@@ -1,0 +1,28 @@
+services:
+  Sauls\Bundle\Components\Component\Security\Access\Granter\String\StringGranter:
+    public: true
+
+  Sauls\Bundle\Components\Component\Security\Access\Granter\String\StringGranterInterface:
+    alias: '@Sauls\Bundle\Components\Component\Security\Access\Granter\String\StringGranter'
+
+  Sauls\Bundle\Components\Component\Security\Access\Granter\Ip\IpGranter:
+    public: true
+
+  Sauls\Bundle\Components\Component\Security\Access\Granter\Ip\IpGranterInterface:
+    alias: '@Sauls\Bundle\Components\Component\Security\Access\Granter\Ip\IpGranter'
+
+  Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtector:
+    public: true
+    arguments:
+      - '%sauls_components.component.access.options%'
+      - '@Sauls\Bundle\Components\Component\Security\Access\Granter\String\StringGranter'
+      - '@Sauls\Bundle\Components\Component\Security\Access\Granter\Ip\IpGranter'
+
+  Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtectorInterface:
+    alias: '@Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtector'
+
+  Sauls\Bundle\Components\Component\Security\Access\Protector\EventSubscriber\AccessProtectorSubscriber:
+    arguments:
+      - '@Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtector'
+    tags:
+      - { name: kernel.event_subscriber }

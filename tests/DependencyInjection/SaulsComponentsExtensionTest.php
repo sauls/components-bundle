@@ -12,6 +12,7 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtector;
 use Sauls\Bundle\Components\Twig\Extension\HelpersTwigExtension;
 use function Sauls\Component\Helper\convert_to;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
@@ -93,5 +94,17 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
 
 
         $this->assertSame('1', convert_to(1, 'string'));
+    }
+
+    /**
+     * @test
+     */
+    public function should_register_access_protector(): void
+    {
+        $container = $this->createContainerBuilder([['components' => ['access' => ['allowed_ips' => ['127.0.0.1'], 'protected_routes' => ['test_']]]]]);
+        $container->compile();
+
+        $this->assertTrue($container->has(AccessProtector::class));
+        $this->assertInternalType('array', $container->getParameter('sauls_components.component.access.options'));
     }
 }

@@ -38,6 +38,7 @@ class SaulsComponentsExtension extends Extension
 
         $this->loadHelpersConfiguration($config, $container, $loader);
         $this->loadWidgetsConfiguration($config, $container, $loader);
+        $this->loadComponentsConfiguration($config, $container, $loader);
     }
 
     /**
@@ -74,6 +75,25 @@ class SaulsComponentsExtension extends Extension
             ->registerForAutoconfiguration(ViewInterface::class)
             ->addTag('sauls_widget.view')
             ->setPrivate(true);
+    }
+
+    private function loadComponentsConfiguration(array $configs, ContainerBuilder $container, LoaderInterface $loader)
+    {
+        $this->loadSecurityAccessComponent($configs, $container, $loader);
+    }
+
+    private function loadSecurityAccessComponent(array $configs, ContainerBuilder $container, LoaderInterface $loader)
+    {
+        if ($this->componentIsNotEnabled('components.access', $configs)) {
+            return;
+        }
+
+        $loader->load('component/security/access.yaml');
+
+        $container->setParameter(
+            'sauls_components.component.access.options',
+            array_get_value($configs, 'components.access')
+        );
     }
 
     /**
