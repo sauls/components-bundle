@@ -27,7 +27,7 @@ class StringGranter extends BaseArrayGranter implements StringGranterInterface
         $this->values = $this->mergeValues($values);
 
         foreach ($this->values as $part) {
-            if (false !== stripos($part, $value)) {
+            if (false !== stripos($value, $part)) {
                 return true;
             }
         }
