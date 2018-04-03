@@ -12,6 +12,7 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -32,10 +33,35 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->fixXmlConfig('helper')
             ->fixXmlConfig('widget')
+            ->fixXmlConfig('component')
             ->addDefaultsIfNotSet()
             ->children()
                 ->booleanNode('helpers')->defaultTrue()->end()
                 ->booleanNode('widgets')->defaultTrue()->end()
+                ->arrayNode('components')
+                    ->children()
+                        ->arrayNode('access')
+                            ->children()
+                                ->arrayNode('allowed_ips')
+                                    ->beforeNormalization()
+                                        ->ifTrue(function ($v) { return !\is_array($v) && false !== $v; })
+                                        ->then(function ($v) { return [$v]; })
+                                    ->end()
+                                    ->prototype('scalar')->end()
+                                ->end()
+                            ->end()
+                            ->children()
+                                ->arrayNode('protected_routes')
+                                    ->beforeNormalization()
+                                        ->ifTrue(function ($v) { return !\is_array($v) && false !== $v; })
+                                        ->then(function ($v) { return [$v]; })
+                                    ->end()
+                                    ->prototype('scalar')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

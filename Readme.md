@@ -56,6 +56,15 @@ return [
 sauls_components:
     helpers: ~ # default true
     widgets: ~ # default true
+    components:
+      # Access component
+      # access: ~ # default false
+      access:
+        protected_routes: # Routes that only allowed ips can access
+          - "secret_route_"
+          - "users_"
+        allowed_ips:
+          - "127.0.0.1/8"
 ```
 
 ## Helpers in twig
