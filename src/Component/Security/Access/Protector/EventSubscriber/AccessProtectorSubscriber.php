@@ -15,9 +15,8 @@ namespace Sauls\Bundle\Components\Component\Security\Access\Protector\EventSubsc
 use Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtectorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class AccessProtectorSubscriber implements EventSubscriberInterface
 {
@@ -35,7 +34,6 @@ class AccessProtectorSubscriber implements EventSubscriberInterface
     {
         $this->accessProtector = $accessProtector;
     }
-
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
@@ -58,7 +56,7 @@ class AccessProtectorSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => [
+            RequestEvent::class => [
                 'onKernelRequest',
                 0,
             ],
@@ -66,11 +64,9 @@ class AccessProtectorSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseEvent $event
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws HttpException
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;
@@ -94,6 +90,7 @@ class AccessProtectorSubscriber implements EventSubscriberInterface
      */
     protected function isAccessProtected(string $route, string $ip): bool
     {
-        return ($this->accessProtector->isRouteAccessProtected($route) && !$this->accessProtector->isIpAccessAllowed($ip));
+        return $this->accessProtector->isRouteAccessProtected($route)
+            && !$this->accessProtector->isIpAccessAllowed($ip);
     }
 }

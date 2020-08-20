@@ -13,6 +13,7 @@
 namespace Sauls\Bundle\Components\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class ConfigurationTest extends TestCase
 {
@@ -21,7 +22,7 @@ class ConfigurationTest extends TestCase
      */
     public function should_return_configuration_root(): void
     {
-        $configuration = new Configuration;
+        $configuration = new Configuration();
         $treeBuilder = $configuration->getConfigTreeBuilder();
 
         $this->assertSame('sauls_components', $treeBuilder->buildTree()->getName());

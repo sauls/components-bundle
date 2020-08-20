@@ -12,6 +12,10 @@
 
 namespace Sauls\Bundle\Components\Component\Security\Access\Protector;
 
+use Exception;
+use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use function Sauls\Component\Helper\array_get_value;
 use Sauls\Bundle\Components\Component\Security\Access\Granter\Ip\IpGranterInterface;
 use Sauls\Bundle\Components\Component\Security\Access\Granter\String\StringGranterInterface;
@@ -55,8 +59,8 @@ class AccessProtector implements AccessProtectorInterface
     /**
      * @param OptionsResolver $resolver
      *
-     * @throws \Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws UndefinedOptionsException
+     * @throws AccessException
      */
     protected function configureDefaults(OptionsResolver $resolver): void
     {
@@ -75,8 +79,8 @@ class AccessProtector implements AccessProtectorInterface
      * @param string $route
      *
      * @return bool
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      * @internal param string $value
      */
     public function isRouteAccessProtected(string $route): bool
@@ -94,8 +98,8 @@ class AccessProtector implements AccessProtectorInterface
      * @param string $ip
      *
      * @return bool
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      */
     public function isIpAccessAllowed(string $ip): bool
     {

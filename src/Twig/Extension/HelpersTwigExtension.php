@@ -12,6 +12,11 @@
 
 namespace Sauls\Bundle\Components\Twig\Extension;
 
+use Exception;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig_SimpleFilter;
+
 use function Sauls\Component\Helper\base64_url_decode;
 use function Sauls\Component\Helper\base64_url_encode;
 use function Sauls\Component\Helper\count_sentences;
@@ -27,33 +32,32 @@ use function Sauls\Component\Helper\truncate_html_sentences;
 use function Sauls\Component\Helper\truncate_html_worlds;
 use function Sauls\Component\Helper\truncate_sentences;
 use function Sauls\Component\Helper\truncate_words;
-use Twig\Extension\AbstractExtension;
 
 class HelpersTwigExtension extends AbstractExtension
 {
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('elapsed_time', [$this, 'elapsedTime']),
-            new \Twig_SimpleFilter('countdown', [$this, 'countdown']),
-            new \Twig_SimpleFilter('camelize', [$this, 'camelize']),
-            new \Twig_SimpleFilter('snakeify', [$this, 'snakeify']),
-            new \Twig_SimpleFilter('multi_split', [$this, 'multiSplit']),
-            new \Twig_SimpleFilter('base64_url_encode', [$this, 'base64UrlEncode']),
-            new \Twig_SimpleFilter('base64_url_decode', [$this, 'base64UrlDecode']),
-            new \Twig_SimpleFilter('count_words', [$this, 'countWords']),
-            new \Twig_SimpleFilter('count_sentences', [$this, 'countSentences']),
-            new \Twig_SimpleFilter('truncate', [$this, 'truncate']),
-            new \Twig_SimpleFilter('truncate_words', [$this, 'truncateWords']),
-            new \Twig_SimpleFilter('truncate_sentences', [$this, 'truncateSentences']),
-            new \Twig_SimpleFilter('truncate_html', [$this, 'truncateHtml']),
-            new \Twig_SimpleFilter('truncate_html_words', [$this, 'truncateHtmlWords']),
-            new \Twig_SimpleFilter('truncate_html_sentences', [$this, 'truncateHtmlSentences']),
+            new TwigFilter('elapsed_time', [$this, 'elapsedTime']),
+            new TwigFilter('countdown', [$this, 'countdown']),
+            new TwigFilter('camelize', [$this, 'camelize']),
+            new TwigFilter('snakeify', [$this, 'snakeify']),
+            new TwigFilter('multi_split', [$this, 'multiSplit']),
+            new TwigFilter('base64_url_encode', [$this, 'base64UrlEncode']),
+            new TwigFilter('base64_url_decode', [$this, 'base64UrlDecode']),
+            new TwigFilter('count_words', [$this, 'countWords']),
+            new TwigFilter('count_sentences', [$this, 'countSentences']),
+            new TwigFilter('truncate', [$this, 'truncate']),
+            new TwigFilter('truncate_words', [$this, 'truncateWords']),
+            new TwigFilter('truncate_sentences', [$this, 'truncateSentences']),
+            new TwigFilter('truncate_html', [$this, 'truncateHtml']),
+            new TwigFilter('truncate_html_words', [$this, 'truncateHtmlWords']),
+            new TwigFilter('truncate_html_sentences', [$this, 'truncateHtmlSentences']),
         ];
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function elapsedTime($date, array $labels = [], $format = ELAPSED_TIME_FORMAT_FULL): string
     {
@@ -61,15 +65,15 @@ class HelpersTwigExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function countdown($dateFrom = 'now', $dateTo, string $format = '%s%02d:%02d:%02d'): string
+    public function countdown($dateFrom, $dateTo, string $format = '%s%02d:%02d:%02d'): string
     {
-        return countdown($dateFrom, $dateTo, $format);
+        return countdown($dateFrom ?? 'now', $dateTo, $format);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function camelize(string $value): string
     {
@@ -77,7 +81,7 @@ class HelpersTwigExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function snakeify(string $value): string
     {
@@ -85,7 +89,7 @@ class HelpersTwigExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function multiSplit(string $value, array $delimiters = ['.']): array
     {
@@ -93,7 +97,7 @@ class HelpersTwigExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function base64UrlEncode(string $value): string
     {
@@ -101,7 +105,7 @@ class HelpersTwigExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function base64UrlDecode(string $value): string
     {
