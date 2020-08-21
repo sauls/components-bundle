@@ -12,6 +12,9 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Exception;
+use InvalidArgumentException;
+use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
 use Sauls\Component\Widget\View\ViewInterface;
 use Sauls\Component\Widget\WidgetInterface;
 use Symfony\Component\Config\FileLocator;
@@ -20,21 +23,22 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+use function dirname;
 use function Sauls\Component\Helper\array_get_value;
 
 class SaulsComponentsExtension extends Extension
 {
     /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
-     * @throws \InvalidArgumentException When provided tag is not defined in this extension
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
+     * @throws InvalidArgumentException When provided tag is not defined in this extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__) . '/Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/Resources/config'));
 
         $this->loadHelpersConfiguration($config, $container, $loader);
         $this->loadWidgetsConfiguration($config, $container, $loader);
@@ -43,8 +47,8 @@ class SaulsComponentsExtension extends Extension
     }
 
     /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      */
     private function loadHelpersConfiguration(array $configs, ContainerBuilder $container, LoaderInterface $loader)
     {
@@ -56,8 +60,8 @@ class SaulsComponentsExtension extends Extension
     }
 
     /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      */
     private function componentIsNotEnabled(string $componentName, array $configs): bool
     {
@@ -65,8 +69,8 @@ class SaulsComponentsExtension extends Extension
     }
 
     /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      */
     private function loadWidgetsConfiguration(array $configs, ContainerBuilder $container, LoaderInterface $loader)
     {
@@ -106,6 +110,9 @@ class SaulsComponentsExtension extends Extension
         );
     }
 
+    /**
+     * @throws Exception
+     */
     private function loadBuiltInWidgets(array $config, ContainerBuilder $container, YamlFileLoader $loader)
     {
         if ($container->has('cache.app')) {

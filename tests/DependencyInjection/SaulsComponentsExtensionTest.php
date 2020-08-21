@@ -19,6 +19,8 @@ use Sauls\Bundle\Components\Twig\Extension\HelpersTwigExtension;
 use Sauls\Component\Helper\Exception\InvalidTypeConverterException;
 use Sauls\Component\Widget\Collection\WidgetCollection;
 use Sauls\Component\Widget\Factory\WidgetFactory;
+use Sauls\Component\Widget\Widgets\CacheableWidget;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -111,5 +113,18 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
 
         $this->assertTrue($container->has(AccessProtector::class));
         $this->assertIsArray($container->getParameter('sauls_components.component.access.options'));
+    }
+
+    /**
+     * @test
+     */
+    public function should_load_when_app_cache_is_available(): void
+    {
+        $container = new ContainerBuilder();
+        $container->set('app.cache', new ArrayAdapter());
+        $container->addCompilerPass(new RegisterCollectionConvertersPass());
+        $container->compile();
+
+        $this->assertTrue($container->has(CacheableWidget::class));
     }
 }
