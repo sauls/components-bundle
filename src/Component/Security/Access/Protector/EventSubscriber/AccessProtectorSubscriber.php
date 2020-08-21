@@ -20,40 +20,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AccessProtectorSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var AccessProtectorInterface
-     */
-    private $accessProtector;
+    private AccessProtectorInterface $accessProtector;
 
-    /**
-     * AccessProtectorSubscriber constructor.
-     *
-     * @param AccessProtectorInterface $accessProtector
-     */
     public function __construct(AccessProtectorInterface $accessProtector)
     {
         $this->accessProtector = $accessProtector;
     }
 
-    /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * array('eventName' => 'methodName')
-     *  * array('eventName' => array('methodName', $priority))
-     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2')))
-     *
-     * @return array The event names to listen to
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             RequestEvent::class => [
@@ -74,20 +48,14 @@ class AccessProtectorSubscriber implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        $route = $request->get('_route');
-        $ip = $request->getClientIp();
+        $route = $request->get('_route', '');
+        $ip = $request->getClientIp() ?? '';
 
         if ($this->isAccessProtected($route, $ip)) {
             throw new HttpException(Response::HTTP_NOT_FOUND, 'Not found');
         }
     }
 
-    /**
-     * @param string $route
-     * @param string $ip
-     *
-     * @return bool
-     */
     protected function isAccessProtected(string $route, string $ip): bool
     {
         return $this->accessProtector->isRouteAccessProtected($route)
