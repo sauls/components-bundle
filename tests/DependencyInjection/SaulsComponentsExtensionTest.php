@@ -14,7 +14,6 @@ namespace Sauls\Bundle\Components\DependencyInjection;
 
 use Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtector;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
-use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPassTest;
 use Sauls\Bundle\Components\Twig\Extension\HelpersTwigExtension;
 use Sauls\Component\Helper\Exception\InvalidTypeConverterException;
 use Sauls\Component\Widget\Collection\WidgetCollection;
@@ -120,9 +119,12 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
      */
     public function should_load_when_app_cache_is_available(): void
     {
-        $container = new ContainerBuilder();
-        $container->set('app.cache', new ArrayAdapter());
-        $container->addCompilerPass(new RegisterCollectionConvertersPass());
+        $container = $this->createContainerBuilder(
+            [],
+            function (ContainerBuilder $container) {
+                $container->register('cache.app', ArrayAdapter::class);
+            }
+        );
         $container->compile();
 
         $this->assertTrue($container->has(CacheableWidget::class));

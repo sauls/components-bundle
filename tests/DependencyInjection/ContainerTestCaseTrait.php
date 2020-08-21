@@ -12,6 +12,7 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection;
 
+use Closure;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Twig\Environment;
 use Twig\Loader\LoaderInterface;
@@ -24,13 +25,17 @@ trait ContainerTestCaseTrait
      * @throws \Exception
      * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
      */
-    public function createContainerBuilder(array $configs = []): ContainerBuilder
+    public function createContainerBuilder(array $configs = [], Closure $callable = null): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->set('twig', $this->createTwigEnvironmentMock());
 
-        $componentsExtension = new SaulsComponentsExtension;
+        if ($callable) {
+            $callable($containerBuilder);
+        }
+        
+        $componentsExtension = new SaulsComponentsExtension();
 
         $componentsExtension->load($configs, $containerBuilder);
 
