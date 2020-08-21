@@ -15,7 +15,6 @@ namespace Sauls\Bundle\Components\Twig\Extension;
 use Exception;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig_SimpleFilter;
 
 use function Sauls\Component\Helper\base64_url_decode;
 use function Sauls\Component\Helper\base64_url_encode;
