@@ -40,4 +40,5 @@ services:
       - { name: twig.extension }
 
   Sauls\Component\Widget\Widgets\CacheableWidget:
+    arguments: ['@cache.app']
     tags: ['sauls_widget.widget']
