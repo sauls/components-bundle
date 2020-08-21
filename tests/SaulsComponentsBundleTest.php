@@ -14,6 +14,7 @@ namespace Sauls\Bundle\Components;
 
 use PHPUnit\Framework\TestCase;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPassTest;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SaulsComponentsBundleTest extends TestCase

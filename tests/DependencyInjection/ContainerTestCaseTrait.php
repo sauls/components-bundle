@@ -30,7 +30,6 @@ trait ContainerTestCaseTrait
 
         $containerBuilder->set('twig', $this->createTwigEnvironmentMock());
 
-
         $componentsExtension = new SaulsComponentsExtension;
 
         $componentsExtension->load($configs, $containerBuilder);
