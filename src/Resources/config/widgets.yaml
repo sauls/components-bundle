@@ -38,6 +38,3 @@ services:
       - '@Sauls\Component\Widget\Factory\WidgetFactory'
     tags:
       - { name: twig.extension }
-
-  Sauls\Component\Widget\Widgets\CacheableWidget:
-    tags: ['sauls_widget.widget']
