@@ -12,15 +12,13 @@
 
 namespace Sauls\Bundle\Components\Component\Security\Access\Protector\EventSubscriber;
 
-
 use PHPUnit\Framework\TestCase;
 use Sauls\Bundle\Components\Component\Security\Access\Protector\AccessProtectorTestCaseTrait;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class AccessProtectorSubscriberTest extends TestCase
@@ -28,9 +26,7 @@ class AccessProtectorSubscriberTest extends TestCase
     use AccessProtectorTestCaseTrait;
 
     protected $eventDispatcher;
-
     protected $request;
-
     protected $kernel;
 
     /**
@@ -41,14 +37,16 @@ class AccessProtectorSubscriberTest extends TestCase
         $this->request->request->set('_route', 'test_');
         $this->request->method('getClientIp')->willReturn('127.0.0.1');
 
-        $event = $this->createAndDispatchEvent([
-            'allowed_ips' => [
-                '127.0.0.1',
-            ],
-            'protected_routes' => [
-                'test_',
-            ],
-        ]);
+        $event = $this->createAndDispatchEvent(
+            [
+                'allowed_ips' => [
+                    '127.0.0.1',
+                ],
+                'protected_routes' => [
+                    'test_',
+                ],
+            ]
+        );
 
         $this->assertFalse($event->hasResponse());
     }
@@ -56,16 +54,13 @@ class AccessProtectorSubscriberTest extends TestCase
     private function createAndDispatchEvent(
         array $options = [],
         int $requestType = HttpKernelInterface::MASTER_REQUEST
-    ): GetResponseEvent {
+    ): RequestEvent {
         $this->eventDispatcher = new EventDispatcher();
         $this->eventDispatcher->addSubscriber(new AccessProtectorSubscriber($this->createAccessProtector($options)));
 
-        $event = $this->eventDispatcher->dispatch(
-            KernelEvents::REQUEST,
-            new GetResponseEvent($this->kernel, $this->request, $requestType)
+        return $this->eventDispatcher->dispatch(
+            new RequestEvent($this->kernel, $this->request, $requestType)
         );
-
-        return $event;
     }
 
     /**
@@ -102,26 +97,27 @@ class AccessProtectorSubscriberTest extends TestCase
         $this->request->request->set('_route', 'test_');
         $this->request->method('getClientIp')->willReturn('129.0.0.1');
 
-        $event = $this->createAndDispatchEvent([
-            'allowed_ips' => [
-                '127.0.0.1',
-            ],
-            'protected_routes' => [
-                'test_',
-            ],
-        ]);
-
-        $this->createAndDispatchEvent([]);
+        $this->createAndDispatchEvent(
+            [
+                'allowed_ips' => [
+                    '127.0.0.1',
+                ],
+                'protected_routes' => [
+                    'test_',
+                ],
+            ]
+        );
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
-        $this->request = $this->getMockBuilder(Request::class)->setConstructorArgs([
-            [],
-            [],
-            [],
-        ])->setMethods(['getClientIp'])->getMock();
+        $this->request = $this->getMockBuilder(Request::class)->setConstructorArgs(
+            [
+                [],
+                [],
+                [],
+            ]
+        )->setMethods(['getClientIp'])->getMock();
     }
-
 }

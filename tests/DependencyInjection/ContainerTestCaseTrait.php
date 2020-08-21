@@ -13,6 +13,8 @@
 namespace Sauls\Bundle\Components\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
 
 trait ContainerTestCaseTrait
 {
@@ -28,7 +30,6 @@ trait ContainerTestCaseTrait
 
         $containerBuilder->set('twig', $this->createTwigEnvironmentMock());
 
-
         $componentsExtension = new SaulsComponentsExtension;
 
         $componentsExtension->load($configs, $containerBuilder);
@@ -36,10 +37,10 @@ trait ContainerTestCaseTrait
         return $containerBuilder;
     }
 
-    public function createTwigEnvironmentMock(): \Twig_Environment
+    public function createTwigEnvironmentMock(): Environment
     {
-        return new \Twig_Environment(
-            $this->getMockBuilder(\Twig_LoaderInterface::class)->getMock()
+        return new Environment(
+            $this->getMockBuilder(LoaderInterface::class)->getMock()
         );
     }
 }

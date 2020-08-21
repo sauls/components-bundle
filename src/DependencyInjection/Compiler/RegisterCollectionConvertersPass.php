@@ -12,17 +12,20 @@
 
 namespace Sauls\Bundle\Components\DependencyInjection\Compiler;
 
-use function Sauls\Component\Helper\register_converters;
+use Exception;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+
+use function array_keys;
+use function array_map;
+use function Sauls\Component\Helper\register_converters;
 
 class RegisterCollectionConvertersPass implements CompilerPassInterface
 {
     /**
      * @param ContainerBuilder $container
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function process(ContainerBuilder $container)
     {
@@ -33,11 +36,11 @@ class RegisterCollectionConvertersPass implements CompilerPassInterface
         }
 
         register_converters(
-            \array_map(
-                function($converterId) use ($container) {
+            array_map(
+                function ($converterId) use ($container) {
                     return $container->get($converterId);
                 },
-                \array_keys($taggedServices)
+                array_keys($taggedServices)
             )
         );
     }

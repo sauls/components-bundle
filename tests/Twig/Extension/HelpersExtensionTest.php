@@ -12,7 +12,12 @@
 
 namespace Sauls\Bundle\Components\Twig\Extension;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
+
+use function html_entity_decode;
 
 class HelpersExtensionTest extends TestCase
 {
@@ -23,11 +28,11 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_return_elapsed_time(): void
     {
-        $testDate = (new \DateTime())->modify('-1 month -2 days -48 seconds');
+        $testDate = (new DateTime())->modify('-1 month -2 days -48 seconds');
 
         $template = $this->twigEnvironment->createTemplate('{{testDate|elapsed_time}}');
 
-        $this->assertContains('1mo', $template->render(['testDate' => $testDate]));
+        $this->assertStringContainsString('1mo', $template->render(['testDate' => $testDate]));
     }
 
     /**
@@ -35,17 +40,19 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_return_countdown_to_till_date(): void
     {
-        $testDateFrom = (new \DateTime());
-        $testDateTo = (new \DateTime())->modify('+ 3 days -1 day -38 minutes -78 seconds');
+        $testDateFrom = (new DateTime());
+        $testDateTo = (new DateTime())->modify('+ 3 days -1 day -38 minutes -78 seconds');
 
         $template = $this->twigEnvironment->createTemplate('{{dateFrom|countdown(dateTo)}}');
-        $this->assertContains(
+        $this->assertStringContainsString(
             '47:20:4',
             $template->render(
                 [
                     'dateFrom' => $testDateFrom,
                     'dateTo' => $testDateTo,
-                ]));
+                ]
+            )
+        );
     }
 
     /**
@@ -73,7 +80,9 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_explode_string_using_multiple_delimiters(): void
     {
-        $template = $this->twigEnvironment->createTemplate("{% set ms = 'super,duper#string'|multi_split([',', '#']) %}{{ ms|join('-') }}");
+        $template = $this->twigEnvironment->createTemplate(
+            "{% set ms = 'super,duper#string'|multi_split([',', '#']) %}{{ ms|join('-') }}"
+        );
 
         $this->assertSame('super-duper-string', $template->render([]));
     }
@@ -143,7 +152,9 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_truncate_sentences(): void
     {
-        $template = $this->twigEnvironment->createTemplate("{{ 'Hello. World. Are you real?'|truncate_sentences(2, '..') }}");
+        $template = $this->twigEnvironment->createTemplate(
+            "{{ 'Hello. World. Are you real?'|truncate_sentences(2, '..') }}"
+        );
 
         $this->assertSame('Hello. World...', $template->render([]));
     }
@@ -155,7 +166,7 @@ class HelpersExtensionTest extends TestCase
     {
         $template = $this->twigEnvironment->createTemplate("{{ '<p>Hello world!</p>'|truncate_html(5, '') }}");
 
-        $this->assertSame('<p>Hello</p>', \html_entity_decode($template->render([])));
+        $this->assertSame('<p>Hello</p>', html_entity_decode($template->render([])));
     }
 
     /**
@@ -163,9 +174,11 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_truncate_html_words(): void
     {
-        $template = $this->twigEnvironment->createTemplate("{{ '<p>Hello world of life.</p>'|truncate_html_words(2, '') }}");
+        $template = $this->twigEnvironment->createTemplate(
+            "{{ '<p>Hello world of life.</p>'|truncate_html_words(2, '') }}"
+        );
 
-        $this->assertSame('<p>Hello world</p>', \html_entity_decode($template->render([])));
+        $this->assertSame('<p>Hello world</p>', html_entity_decode($template->render([])));
     }
 
     /**
@@ -173,17 +186,20 @@ class HelpersExtensionTest extends TestCase
      */
     public function should_truncate_html_sentences(): void
     {
-        $template = $this->twigEnvironment->createTemplate("{{ '<p><span>Hello world.</span> How is your life? is it good?</p>'|truncate_html_sentences(2, '') }}");
+        $template = $this->twigEnvironment->createTemplate(
+            "{{ '<p><span>Hello world.</span> How is your life? is it good?</p>'|truncate_html_sentences(2, '') }}"
+        );
 
-        $this->assertSame('<p><span>Hello world.</span>How is your life?</p>', \html_entity_decode($template->render([])));
+        $this->assertSame(
+            '<p><span>Hello world.</span>How is your life?</p>',
+            html_entity_decode($template->render([]))
+        );
     }
 
-
-
-protected function setUp()
+    protected function setUp(): void
     {
-        $this->twigEnvironment = new \Twig_Environment(
-            $this->getMockBuilder(\Twig_LoaderInterface::class)->getMock()
+        $this->twigEnvironment = new Environment(
+            $this->getMockBuilder(LoaderInterface::class)->getMock()
         );
         $this->twigEnvironment->addExtension(new HelpersTwigExtension);
     }
