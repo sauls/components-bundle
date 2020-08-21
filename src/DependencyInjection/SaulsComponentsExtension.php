@@ -74,7 +74,7 @@ class SaulsComponentsExtension extends Extension
         $container
             ->registerForAutoconfiguration(ViewInterface::class)
             ->addTag('sauls_widget.view')
-            ->setPrivate(true);
+            ->setPublic(true);
     }
 
     private function loadComponentsConfiguration(array $configs, ContainerBuilder $container, LoaderInterface $loader)

@@ -1,10 +1,4 @@
 services:
-  _instanceof:
-    Sauls\Component\Widget\WidgetInterface:
-      tags: ['sauls_widget']
-    Sauls\Component\Widget\View\ViewInterface:
-      tags: ['sauls_widget.view']
-
   Sauls\Component\Widget\Collection\WidgetCollection:
     public: true
     arguments: [!tagged sauls_widget.widget]
