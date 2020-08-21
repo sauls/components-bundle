@@ -1,5 +1,4 @@
 services:
-
   Sauls\Component\Widget\Collection\WidgetCollection:
     public: true
     arguments: [!tagged sauls_widget.widget]
@@ -39,3 +38,6 @@ services:
       - '@Sauls\Component\Widget\Factory\WidgetFactory'
     tags:
       - { name: twig.extension }
+
+  Sauls\Component\Widget\Widgets\CacheableWidget:
+    tags: ['sauls_widget.widget']
