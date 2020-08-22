@@ -34,6 +34,7 @@ class RegisterWidgetsPass implements CompilerPassInterface
             ->register(CacheableWidget::class, CacheableWidget::class)
             ->addArgument($cacheDefinition)
             ->addArgument($widgetDefinition)
+            ->addTag('sauls_widget.widget')
             ->setPublic(true);
     }
 }
