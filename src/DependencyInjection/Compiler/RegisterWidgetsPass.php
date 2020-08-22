@@ -24,17 +24,17 @@ class RegisterWidgetsPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $cacheDefinition = $container->findDefinition('cache.app');
-        $widgetDefinition = $container->findDefinition(WidgetFactory::class);
+        $widgetFactoryDefinition = $container->findDefinition(WidgetFactory::class);
 
-        if (!$cacheDefinition && !$widgetDefinition) {
+        if (!$cacheDefinition && !$widgetFactoryDefinition) {
             return;
         }
 
         $container
             ->register(CacheableWidget::class, CacheableWidget::class)
             ->addArgument($cacheDefinition)
-            ->addArgument($widgetDefinition)
             ->addTag('sauls_widget.widget')
+            ->addMethodCall('setWidgetFactory', [$widgetFactoryDefinition])
             ->setPublic(true);
     }
 }
