@@ -15,6 +15,7 @@ namespace Sauls\Bundle\Components;
 use PHPUnit\Framework\TestCase;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPassTest;
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterWidgetsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SaulsComponentsBundleTest extends TestCase
@@ -27,13 +28,15 @@ class SaulsComponentsBundleTest extends TestCase
         $containerBuilder = $this
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
-            ->setMethods(['addCompilerPass'])
             ->getMock();
 
         $containerBuilder
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('addCompilerPass')
-            ->with($this->equalTo(new RegisterCollectionConvertersPass()))
+            ->withConsecutive(
+                [$this->equalTo(new RegisterCollectionConvertersPass())],
+                [$this->equalTo(new RegisterWidgetsPass())]
+            )
             ->willReturn($containerBuilder);
 
         $saulsWidgetBundle = new SaulsComponentsBundle();

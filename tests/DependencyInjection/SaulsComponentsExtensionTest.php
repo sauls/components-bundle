@@ -120,13 +120,10 @@ class SaulsComponentsExtensionTest extends ContainerTestCase
     public function should_load_when_app_cache_is_available(): void
     {
         $container = $this->createContainerBuilder(
-            [],
-            function (ContainerBuilder $container) {
-                $container->register('cache.app', ArrayAdapter::class);
-            }
+            [['widgets' => true,]]
         );
         $container->compile();
 
-        $this->assertTrue($container->has(CacheableWidget::class));
+        $this->assertTrue($container->hasDefinition(CacheableWidget::class));
     }
 }
