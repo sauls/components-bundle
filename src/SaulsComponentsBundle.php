@@ -13,6 +13,7 @@
 namespace Sauls\Bundle\Components;
 
 use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterCollectionConvertersPass;
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterWidgetsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -22,6 +23,7 @@ class SaulsComponentsBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new RegisterCollectionConvertersPass);
+        $container->addCompilerPass(new RegisterCollectionConvertersPass());
+        $container->addCompilerPass(new RegisterWidgetsPass());
     }
 }

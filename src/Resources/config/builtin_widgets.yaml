@@ -1,4 +1,6 @@
 services:
   Sauls\Component\Widget\Widgets\CacheableWidget:
-    arguments: ['@cache.app']
+    arguments:
+      - '@cache.app'
+      - '@Sauls\Component\Widget\Factory\WidgetFactory'
     tags: ['sauls_widget.widget']

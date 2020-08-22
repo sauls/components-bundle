@@ -14,6 +14,7 @@ namespace Sauls\Bundle\Components\DependencyInjection;
 
 use Exception;
 use InvalidArgumentException;
+use Sauls\Bundle\Components\DependencyInjection\Compiler\RegisterWidgetsPass;
 use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
 use Sauls\Component\Widget\View\ViewInterface;
 use Sauls\Component\Widget\WidgetInterface;
@@ -43,7 +44,6 @@ class SaulsComponentsExtension extends Extension
         $this->loadHelpersConfiguration($config, $container, $loader);
         $this->loadWidgetsConfiguration($config, $container, $loader);
         $this->loadComponentsConfiguration($config, $container, $loader);
-        $this->loadBuiltInWidgets($config, $container, $loader);
     }
 
     /**
@@ -108,15 +108,5 @@ class SaulsComponentsExtension extends Extension
             'sauls_components.component.access.options',
             array_get_value($configs, 'components.access')
         );
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function loadBuiltInWidgets(array $config, ContainerBuilder $container, YamlFileLoader $loader)
-    {
-        if ($container->has('cache.app')) {
-            $loader->load('builtin_widgets.yaml');
-        }
     }
 }

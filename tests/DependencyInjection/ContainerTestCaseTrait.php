@@ -13,6 +13,8 @@
 namespace Sauls\Bundle\Components\DependencyInjection;
 
 use Closure;
+use Sauls\Bundle\Components\SaulsComponentsBundle;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Twig\Environment;
 use Twig\Loader\LoaderInterface;
@@ -30,6 +32,7 @@ trait ContainerTestCaseTrait
         $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->set('twig', $this->createTwigEnvironmentMock());
+        $containerBuilder->register('cache.app', ArrayAdapter::class)->setPublic(true);
 
         if ($callable) {
             $callable($containerBuilder);
@@ -39,6 +42,9 @@ trait ContainerTestCaseTrait
 
         $componentsExtension->load($configs, $containerBuilder);
 
+        $bundle = new SaulsComponentsBundle();
+        $bundle->build($containerBuilder);
+;
         return $containerBuilder;
     }
 
